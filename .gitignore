@@ -1,0 +1,10 @@
+# Logs
+*.log
+firebase-debug.log*
+
+# IDEs and editors
+.vscode/
+.idx/
+
+# Dependency directories
+node_modules/
