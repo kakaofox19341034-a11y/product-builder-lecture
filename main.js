@@ -22,6 +22,41 @@ const resultContainer = document.getElementById('result-container');
 const labelContainer = document.getElementById('label-container');
 const themeToggle = document.getElementById('theme-toggle');
 
+const generateLottoBtn = document.getElementById('generate-lotto-btn');
+const lottoNumbersContainer = document.getElementById('lotto-numbers');
+const showAnimalTestBtn = document.getElementById('show-animal-test-btn');
+const animalTestSection = document.getElementById('animal-test-section');
+
+// Lotto Generation logic
+generateLottoBtn.addEventListener('click', () => {
+    lottoNumbersContainer.innerHTML = '';
+    const numbers = new Set();
+    while (numbers.size < 5) {
+        const randomNumber = Math.floor(Math.random() * 45) + 1;
+        numbers.add(randomNumber);
+    }
+
+    const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+
+    sortedNumbers.forEach(number => {
+        const numberDiv = document.createElement('div');
+        numberDiv.classList.add('lotto-number');
+        numberDiv.textContent = number;
+        lottoNumbersContainer.appendChild(numberDiv);
+    });
+});
+
+// Animal Test visibility toggle
+showAnimalTestBtn.addEventListener('click', () => {
+    animalTestSection.classList.toggle('hidden');
+    if (animalTestSection.classList.contains('hidden')) {
+        showAnimalTestBtn.textContent = 'Start Animal Face Test';
+        stopWebcam(); // Stop webcam if hidden
+    } else {
+        showAnimalTestBtn.textContent = 'Hide Animal Face Test';
+    }
+});
+
 // Initialize the model
 async function initModel() {
     const modelURL = URL + "model.json";
