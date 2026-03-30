@@ -3,15 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lotto Number Generator</title>
+    <title>Animal Face Test (Dog vs Cat)</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Load TensorFlow.js and the Teachable Machine library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
     <button id="theme-toggle">Dark Mode</button>
-    <div class="container">
-        <h1>Lotto Number Generator</h1>
-        <div class="lotto-numbers"></div>
-        <button id="generate-btn">Generate Numbers</button>
+    <div class="container main-container">
+        <h1>Animal Face Test (Dog vs Cat)</h1>
+        <p class="subtitle">Upload a photo or use your camera to see if you look like a Dog or a Cat!</p>
+        
+        <div class="mode-buttons">
+            <button id="use-upload-btn" class="mode-btn active">Upload Photo</button>
+            <button id="use-webcam-btn" class="mode-btn">Use Camera</button>
+        </div>
+
+        <div id="upload-mode-container">
+            <div class="upload-area" id="upload-area">
+                <input type="file" id="image-upload" accept="image/*" hidden>
+                <div class="upload-placeholder">
+                    <span class="upload-icon">📷</span>
+                    <p>Click or drag a photo here</p>
+                </div>
+                <img id="image-preview" src="#" alt="Preview" style="display: none;">
+            </div>
+        </div>
+
+        <div id="webcam-mode-container" style="display: none;">
+            <div id="webcam-container"></div>
+            <button id="start-webcam-btn" class="action-btn">Start Camera</button>
+        </div>
+
+        <div id="loading-container" style="display: none;">
+            <p>Analyzing...</p>
+            <div class="loader"></div>
+        </div>
+
+        <div id="result-container" style="display: none;">
+            <h2>Analysis Results</h2>
+            <div class="result-items" id="label-container">
+                <!-- Result items will be inserted here by JavaScript -->
+            </div>
+        </div>
     </div>
 
     <div class="container partnership-container">
