@@ -23,12 +23,15 @@ body.dark-mode {
 body {
     font-family: sans-serif;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
+    padding: 40px 0;
+    gap: 40px;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -38,6 +41,66 @@ body {
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 4px 15px var(--shadow);
+    width: 90%;
+    max-width: 500px;
+}
+
+.partnership-container {
+    text-align: left;
+}
+
+.partnership-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.partnership-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: var(--lotto-number-bg);
+    color: var(--text-color);
+    font-family: inherit;
+}
+
+body.dark-mode .form-group input,
+body.dark-mode .form-group textarea {
+    border-color: #444;
+}
+
+.submit-btn {
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border-radius: 5px;
+    font-weight: bold;
+    transition: opacity 0.3s;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
 }
 
 .lotto-numbers {
