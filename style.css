@@ -138,6 +138,11 @@ body.dark-mode .form-group textarea {
     transition: background-color 0.3s;
 }
 
+.disqus-container {
+    padding: 2rem;
+    text-align: left;
+}
+
 #theme-toggle {
     position: absolute;
     top: 20px;
