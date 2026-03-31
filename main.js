@@ -24,8 +24,59 @@ const themeToggle = document.getElementById('theme-toggle');
 
 const generateLottoBtn = document.getElementById('generate-lotto-btn');
 const lottoNumbersContainer = document.getElementById('lotto-numbers');
-const showAnimalTestBtn = document.getElementById('show-animal-test-btn');
-const animalTestSection = document.getElementById('animal-test-section');
+
+// Legal Modals
+const legalModal = document.getElementById('legal-modal');
+const modalBody = document.getElementById('modal-body');
+const closeModal = document.querySelector('.close-modal');
+const privacyLink = document.getElementById('privacy-link');
+const termsLink = document.getElementById('terms-link');
+
+const legalContent = {
+    privacy: `
+        <h2>개인정보처리방침</h2>
+        <p>본 서비스는 사용자의 이미지를 서버에 저장하지 않습니다. 모든 분석은 웹브라우저 내에서 인공지능 모델을 통해 실시간으로 수행됩니다.</p>
+        <p>분석에 사용된 사진은 브라우저 세션이 종료되거나 페이지를 새로고침하면 즉시 삭제됩니다.</p>
+    `,
+    terms: `
+        <h2>이용약관</h2>
+        <p>본 서비스는 엔터테인먼트 목적으로만 제공됩니다. 로또 번호 생성 결과나 AI 분석 결과에 대해 어떠한 법적 책임도 지지 않습니다.</p>
+        <p>사용자는 본 서비스를 불법적인 목적으로 이용할 수 없으며, 서비스 이용 시 발생하는 결과에 대한 책임은 사용자 본인에게 있습니다.</p>
+    `
+};
+
+privacyLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    modalBody.innerHTML = legalContent.privacy;
+    legalModal.classList.remove('hidden');
+});
+
+termsLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    modalBody.innerHTML = legalContent.terms;
+    legalModal.classList.remove('hidden');
+});
+
+closeModal.addEventListener('click', () => {
+    legalModal.classList.add('hidden');
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === legalModal) {
+        legalModal.classList.add('hidden');
+    }
+});
+
+// Smooth Scrolling for Nav Links
+document.querySelectorAll('.nav-menu a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        document.querySelector(targetId).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
 
 // Lotto Generation logic
 generateLottoBtn.addEventListener('click', () => {
@@ -38,23 +89,14 @@ generateLottoBtn.addEventListener('click', () => {
 
     const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
 
-    sortedNumbers.forEach(number => {
-        const numberDiv = document.createElement('div');
-        numberDiv.classList.add('lotto-number');
-        numberDiv.textContent = number;
-        lottoNumbersContainer.appendChild(numberDiv);
+    sortedNumbers.forEach((number, index) => {
+        setTimeout(() => {
+            const numberDiv = document.createElement('div');
+            numberDiv.classList.add('lotto-number');
+            numberDiv.textContent = number;
+            lottoNumbersContainer.appendChild(numberDiv);
+        }, index * 100);
     });
-});
-
-// Animal Test visibility toggle
-showAnimalTestBtn.addEventListener('click', () => {
-    animalTestSection.classList.toggle('hidden');
-    if (animalTestSection.classList.contains('hidden')) {
-        showAnimalTestBtn.textContent = 'Start Animal Face Test';
-        stopWebcam(); // Stop webcam if hidden
-    } else {
-        showAnimalTestBtn.textContent = 'Hide Animal Face Test';
-    }
 });
 
 // Initialize the model
@@ -65,7 +107,6 @@ async function initModel() {
     try {
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
-        console.log("Model loaded successfully");
     } catch (error) {
         console.error("Error loading model:", error);
     }
@@ -77,7 +118,6 @@ async function predict(source) {
         await initModel();
     }
 
-    // prediction can take in an image, video or canvas html element
     const prediction = await model.predict(source);
     
     labelContainer.innerHTML = '';
@@ -124,7 +164,7 @@ async function startWebcam() {
         window.requestAnimationFrame(loop);
     } catch (error) {
         console.error("Webcam error:", error);
-        alert("Could not access webcam. Please check permissions.");
+        alert("Webcam access denied.");
         startWebcamBtn.style.display = 'block';
         loadingContainer.style.display = 'none';
     }
@@ -208,14 +248,14 @@ uploadArea.addEventListener('drop', (e) => {
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     const isDarkMode = document.body.classList.contains('dark-mode');
-    themeToggle.textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
+    themeToggle.textContent = isDarkMode ? '라이트 모드' : '다크 모드';
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
 
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
-    themeToggle.textContent = 'Light Mode';
+    themeToggle.textContent = '라이트 모드';
 }
 
 initModel();
